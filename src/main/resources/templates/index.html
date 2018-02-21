@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
- <link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"
-        rel="stylesheet"/>
-<title>Welcome</title>
-</head>
+<head th:replace="common/header :: common-header"/>
 
 <body>
 
@@ -45,8 +41,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <div th:replace="common/header :: before-body-scripts"></div> 
     
-     <script src="webjars/jquery/1.9.1/jquery.min.js"></script>
-        <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+     
     
 
 </body>
