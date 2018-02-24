@@ -21,7 +21,7 @@ public class ContactController {
 	
 	@RequestMapping(value="/contact" , method=RequestMethod.GET)
 	public String getContact(ModelMap model)
-	{
+	{ System.out.println("inside contact controller");
 		FeedbackPojo feedBackPojo=new FeedbackPojo();
 		model.addAttribute("feedback", feedBackPojo);
 		return "contact/contact";
