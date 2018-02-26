@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -21,7 +22,7 @@ public class User implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@javax.persistence.Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long Id;
 
@@ -59,6 +60,16 @@ public class User implements Serializable {
 
 	public Set<UserRole> getUserroles() {
 		return userroles;
+	}
+
+	private boolean enabled;
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public void setUserroles(Set<UserRole> userroles) {

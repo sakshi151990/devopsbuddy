@@ -30,6 +30,22 @@ public class Role implements Serializable {
 		return name;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Set<UserRole> getUserrole() {
+		return userrole;
+	}
+
+	public void setUserrole(Set<UserRole> userrole) {
+		this.userrole = userrole;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}

@@ -13,7 +13,7 @@ public class Plan implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	Plan() {
+	public Plan() {
 	}
 
 	@Id
