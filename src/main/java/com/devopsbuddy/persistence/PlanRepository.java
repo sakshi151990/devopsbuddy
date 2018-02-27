@@ -1,12 +1,12 @@
 
-package com.devopsbuddy.web;
+package com.devopsbuddy.persistence;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.devopsbuddy.persistence.Plan;
-
 @Repository
+@ComponentScan(basePackages = "com.devopsbuddy.config")
 public interface PlanRepository extends CrudRepository<Plan, Integer> {
 
 }

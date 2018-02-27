@@ -7,22 +7,32 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.devopsbuddy.persistence.Plan;
+import com.devopsbuddy.persistence.PlanRepository;
 import com.devopsbuddy.persistence.Role;
 import com.devopsbuddy.persistence.RoleRepository;
 import com.devopsbuddy.persistence.User;
 import com.devopsbuddy.persistence.UserRepository;
 import com.devopsbuddy.persistence.UserRole;
-import com.devopsbuddy.web.PlanRepository;
+import com.devopsbuddy.service.I18NService;
 
 import junit.framework.Assert;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootConfiguration
+@SpringBootApplication
+@WebAppConfiguration
+@ComponentScan(basePackages = "com.devopsbuddy.service,com.devopsbuddy.config,com.devopsbuddy.persistence")
+// @ComponentScan(basePackages = { "com.devopsbuddy.service",
+// "com.devopsbuddy.config", "com.devopsbuddy.persistence" })
 public class RepositoriesIntegrationtest {
+
+	@Autowired
+	I18NService i18service;
 
 	@Autowired
 	private PlanRepository planRepository;
@@ -56,7 +66,7 @@ public class RepositoriesIntegrationtest {
 		User user = createNewUser();
 		userRepository.save(user);
 		User getuser = userRepository.findOne(user.getId());
-		Assert.assertNull(getuser.getDescription());
+		Assert.assertNotNull(getuser.getDescription());
 
 	}
 
