@@ -4,7 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,9 +32,10 @@ import junit.framework.Assert;
 @SpringBootApplication
 @WebAppConfiguration
 @ComponentScan(basePackages = "com.devopsbuddy.service,com.devopsbuddy.config,com.devopsbuddy.persistence")
-// @ComponentScan(basePackages = { "com.devopsbuddy.service",
-// "com.devopsbuddy.config", "com.devopsbuddy.persistence" })
+
 public class RepositoriesIntegrationtest {
+	@Rule
+	public TestName testname = new TestName();
 
 	@Autowired
 	I18NService i18service;
@@ -87,7 +90,10 @@ public class RepositoriesIntegrationtest {
 
 	private User createNewUser() {
 
-		User user = UserUtil.createBasicUser();
+		String username = testname.getMethodName();
+		String email = testname.getMethodName() + "@devopsbuddy.com";
+
+		User user = UserUtil.createBasicUser(username, email);
 		Plan userPlan = createBasicPlan(PlansEnum.BASIC);
 		planRepository.save(userPlan);
 

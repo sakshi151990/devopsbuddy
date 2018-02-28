@@ -7,14 +7,14 @@ public class UserUtil {
 	private UserUtil() {
 	}
 
-	public static User createBasicUser() {
+	public static User createBasicUser(String username, String email) {
 
 		System.out.println("insied utils");
 		User user = new User();
 		user.setCountry("India");
-		user.setUsername("user");
+		user.setUsername(username);
 		user.setDescription("basicplan and role");
-		user.setEmail("sakshi@gmail.com");
+		user.setEmail(email);
 		user.setFirstName("sakshi");
 		user.setLastName("ag");
 		user.setPassword("password");

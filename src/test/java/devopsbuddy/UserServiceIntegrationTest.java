@@ -3,7 +3,9 @@ package devopsbuddy;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,6 +33,9 @@ import junit.framework.Assert;
 @ComponentScan(basePackages = "com.devopsbuddy.service,com.devopsbuddy.config,com.devopsbuddy.persistence")
 public class UserServiceIntegrationTest {
 
+	@Rule
+	public TestName testname = new TestName();
+
 	@Autowired
 	private UserService userService;
 
@@ -51,10 +56,13 @@ public class UserServiceIntegrationTest {
 
 	private User createUser() {
 
+		String username = testname.getMethodName();
+		String email = testname.getMethodName() + "@devopsbuddy.com";
+
 		Plan basicPlan = createPlan(PlansEnum.BASIC);
 		planRepository.save(basicPlan);
 
-		User basicuser = UserUtil.createBasicUser();
+		User basicuser = UserUtil.createBasicUser(username, email);
 		basicuser.setPlan(basicPlan);
 		Role basicrole = createRole(RoleEnum.BASIC);
 		roleRepository.save(basicrole);
