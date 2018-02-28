@@ -1,23 +1,28 @@
 package com.devopsbuddy;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.devopsbuddy.persistence.PlanRepository;
+import com.devopsbuddy.enums.PlansEnum;
+import com.devopsbuddy.enums.RoleEnum;
+import com.devopsbuddy.persistence.Role;
+import com.devopsbuddy.persistence.User;
+import com.devopsbuddy.persistence.UserRole;
 import com.devopsbuddy.service.UserService;
+import com.devopsbuddy.utils.UserUtil;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.devopsbuddy.config, com.devopsbuddy.web, com.devopsbuddy.persistence,com.devopsbuddy.service")
+@ComponentScan(basePackages = "com.devopsbuddy.web,com.devopsbuddy.service,com.devopsbuddy.config,com.devopsbuddy.persistence")
 public class devopsbuddyApplication implements CommandLineRunner {
 
 	@Autowired
-	public static PlanRepository planrepo;
-
-	@Autowired
-	public static UserService userService;
+	private UserService userService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(devopsbuddyApplication.class, args);
@@ -26,19 +31,14 @@ public class devopsbuddyApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// TODO Auto-generated method stub
+		System.out.println("inside run");
+		User user = UserUtil.createBasicUser();
+		System.out.println(user);
+		Set<UserRole> userRoles = new HashSet<>();
+		userRoles.add(new UserRole(user, new Role(RoleEnum.ADMIN)));
+		System.out.println(userService);
+		userService.CreateUser(user, PlansEnum.PRO, userRoles);
 
 	}
 
-	/*
-	 * @Override public void run(String... args) throws Exception {
-	 * System.out.println("inside run"); User user = UserUtil.createBasicUser();
-	 * 
-	 * Set<UserRole> userRoles = new HashSet<>(); userRoles.add(new UserRole(user,
-	 * new Role(RoleEnum.ADMIN)));
-	 * 
-	 * userService.CreateUser(user, PlansEnum.PRO, userRoles);
-	 * 
-	 * }
-	 */
 }

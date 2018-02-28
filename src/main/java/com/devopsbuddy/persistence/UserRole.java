@@ -45,6 +45,10 @@ public class UserRole implements Serializable {
 		return role;
 	}
 
+	public UserRole() {
+		super();
+	}
+
 	public void setRole(Role role) {
 		this.role = role;
 	}
