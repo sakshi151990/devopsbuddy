@@ -8,6 +8,8 @@ public class UserUtil {
 	}
 
 	public static User createBasicUser() {
+
+		System.out.println("insied utils");
 		User user = new User();
 		user.setCountry("India");
 		user.setUsername("user");

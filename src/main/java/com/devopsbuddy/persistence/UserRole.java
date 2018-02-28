@@ -49,13 +49,9 @@ public class UserRole implements Serializable {
 		this.role = role;
 	}
 
-	public UserRole(User user, Role role) {
-		this.user = user;
-		this.role = role;
-
-	}
-
-	public UserRole() {
+	public UserRole(User user2, Role role2) {
+		this.role = role2;
+		this.user = user2;
 	}
 
 }
