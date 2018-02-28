@@ -13,8 +13,12 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.devopsbuddy.enums.PlansEnum;
 import com.devopsbuddy.enums.RoleEnum;
+import com.devopsbuddy.persistence.Plan;
+import com.devopsbuddy.persistence.PlanRepository;
 import com.devopsbuddy.persistence.Role;
+import com.devopsbuddy.persistence.RoleRepository;
 import com.devopsbuddy.persistence.User;
+import com.devopsbuddy.persistence.UserRepository;
 import com.devopsbuddy.persistence.UserRole;
 import com.devopsbuddy.service.UserService;
 import com.devopsbuddy.utils.UserUtil;
@@ -30,14 +34,54 @@ public class UserServiceIntegrationTest {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private PlanRepository planRepository;
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
+
 	@Test
 	public void testCreateUser() {
 
-		Set<UserRole> userroles = new HashSet<>();
-		User basicuser = UserUtil.createBasicUser();
-		userroles.add(new UserRole(basicuser, new Role(RoleEnum.BASIC)));
-		User user = userService.CreateUser(basicuser, PlansEnum.BASIC, userroles);
+		User user = createUser();
 		Assert.assertNotNull(user);
+	}
+
+	private User createUser() {
+
+		Plan basicPlan = createPlan(PlansEnum.BASIC);
+		planRepository.save(basicPlan);
+
+		User basicuser = UserUtil.createBasicUser();
+		basicuser.setPlan(basicPlan);
+		Role basicrole = createRole(RoleEnum.BASIC);
+		roleRepository.save(basicrole);
+
+		Set<UserRole> userrole = new HashSet<>();
+		UserRole userole = new UserRole(basicuser, basicrole);
+		userrole.add(userole);
+		basicuser.setUserroles(userrole);
+		basicuser = userRepository.save(basicuser);
+		return basicuser;
+
+	}
+
+	@Test
+	public void testDelete() {
+		User basicuser = createUser();
+		userRepository.delete(basicuser.getId());
+	}
+
+	private Role createRole(RoleEnum basic) {
+		// TODO Auto-generated method stub
+		return new Role(basic);
+	}
+
+	private Plan createPlan(PlansEnum basic) {
+		// TODO Auto-generated method stub
+		return new Plan(basic);
 	}
 
 }

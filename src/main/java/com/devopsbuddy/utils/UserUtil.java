@@ -10,6 +10,7 @@ public class UserUtil {
 	public static User createBasicUser() {
 		User user = new User();
 		user.setCountry("India");
+		user.setUsername("user");
 		user.setDescription("basicplan and role");
 		user.setEmail("sakshi@gmail.com");
 		user.setFirstName("sakshi");

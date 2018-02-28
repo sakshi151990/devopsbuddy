@@ -11,11 +11,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import com.devopsbuddy.service.UserSecuirtyService;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private Environment env;
+
+	@Autowired
+	private UserSecuirtyService userSecuirtyService;
 
 	private static final String[] PUBLIC_MATCHERS = {
 
@@ -42,8 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder authenticatonManager) throws Exception {
-		System.out.println("inside global");
-		authenticatonManager.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+
+		// authenticatonManager.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+		authenticatonManager.userDetailsService(userSecuirtyService);
 
 	}
 
