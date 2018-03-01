@@ -50,6 +50,17 @@ public class User implements Serializable, UserDetails {
 	@JoinColumn(name = "plan_id", referencedColumnName = "id")
 	private Plan plan;
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<PasswordResetToken> passwordToken = new HashSet<>();
+
+	public Set<PasswordResetToken> getPasswordToken() {
+		return passwordToken;
+	}
+
+	public void setPasswordToken(Set<PasswordResetToken> passwordToken) {
+		this.passwordToken = passwordToken;
+	}
+
 	@Column(name = "description")
 	private String description;
 

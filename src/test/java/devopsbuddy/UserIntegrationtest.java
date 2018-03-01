@@ -33,7 +33,7 @@ import junit.framework.Assert;
 @WebAppConfiguration
 @ComponentScan(basePackages = "com.devopsbuddy.service,com.devopsbuddy.config,com.devopsbuddy.persistence")
 
-public class RepositoriesIntegrationtest {
+public class UserIntegrationtest {
 	@Rule
 	public TestName testname = new TestName();
 
