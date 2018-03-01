@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,6 +25,15 @@ public class devopsbuddyApplication implements CommandLineRunner {
 	@Autowired
 	private UserService userService;
 
+	@Value("${webmaster.username}")
+	private String webmasterusername;
+
+	@Value("${webmaster.email}")
+	private String webmasteremail;
+
+	@Value("${webmaster.password}")
+	private String webmasterpassword;
+
 	public static void main(String[] args) {
 		SpringApplication.run(devopsbuddyApplication.class, args);
 
@@ -32,10 +42,8 @@ public class devopsbuddyApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		String username = "prouser";
-		String email = "prouser@devopsbuddy.com";
-		System.out.println("inside run");
-		User user = UserUtil.createBasicUser(username, email);
+		User user = UserUtil.createBasicUser(webmasterusername, webmasteremail);
+		user.setPassword(webmasterpassword);
 		System.out.println(user);
 		Set<UserRole> userRoles = new HashSet<>();
 		userRoles.add(new UserRole(user, new Role(RoleEnum.ADMIN)));
