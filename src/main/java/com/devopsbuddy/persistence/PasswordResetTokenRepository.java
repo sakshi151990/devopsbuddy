@@ -13,4 +13,5 @@ public interface PasswordResetTokenRepository extends CrudRepository<PasswordRes
 
 	@Query("select ptr from PasswordResetToken ptr inner join ptr.user u where ptr.user.id = ?1")
 	Set<PasswordResetToken> findAllByUserId(long userId);
+
 }

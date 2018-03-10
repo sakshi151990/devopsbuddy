@@ -2,6 +2,7 @@ package devopsbuddy;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -57,7 +58,8 @@ public class UserIntegrationtest {
 
 	@Test
 	public void testcreationrepo() {
-
+		String username = testname.getMethodName();
+		String email = testname.getMethodName() + "@devopsbuddy.com";
 		planRepository.save(createBasicPlan(PlansEnum.BASIC));
 		Plan retrivePlan = planRepository.findOne(PlansEnum.BASIC.getId());
 		Assert.assertNotNull(retrivePlan);
@@ -66,7 +68,7 @@ public class UserIntegrationtest {
 		Role retriveRole = roleRepository.findOne(RoleEnum.BASIC.getId());
 		Assert.assertNotNull("not null", retriveRole);
 
-		User user = createNewUser();
+		User user = createNewUser(username, email);
 		userRepository.save(user);
 		User getuser = userRepository.findOne(user.getId());
 		Assert.assertNotNull(getuser.getDescription());
@@ -88,10 +90,7 @@ public class UserIntegrationtest {
 
 	}
 
-	private User createNewUser() {
-
-		String username = testname.getMethodName();
-		String email = testname.getMethodName() + "@devopsbuddy.com";
+	private User createNewUser(String username, String email) {
 
 		User user = UserUtil.createBasicUser(username, email);
 		Plan userPlan = createBasicPlan(PlansEnum.BASIC);
@@ -114,6 +113,40 @@ public class UserIntegrationtest {
 
 		return user;
 
+	}
+
+	@Test
+	public void testDeleteUser() {
+
+		String username = testname.getMethodName();
+		String email = testname.getMethodName() + "@devopsbuddy.com";
+
+		User basicuser = createNewUser(username, email);
+		userRepository.delete(basicuser.getId());
+
+	}
+
+	@Test
+	public void testgetUser() {
+
+		String username = testname.getMethodName();
+		String email = testname.getMethodName() + "@devopsbuddy.com";
+
+		User basicuser = createNewUser(username, email);
+		User user = userRepository.findByEmail(basicuser.getEmail());
+		Assert.assertNotNull(user);
+
+	}
+
+	@Test
+	public void userupdatepassword() {
+		User user = createNewUser(testname.getMethodName(), testname.getMethodName() + "@devopsbuddy.com");
+		Assert.assertNotNull(user);
+		String newpassword = UUID.randomUUID().toString();
+		userRepository.updateUserPassword(user.getId(), newpassword);
+		user = userRepository.findOne(user.getId());
+		Assert.assertEquals(newpassword, user.getPassword());
+		;
 	}
 
 }

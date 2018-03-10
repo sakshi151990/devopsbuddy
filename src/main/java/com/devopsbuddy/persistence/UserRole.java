@@ -49,13 +49,15 @@ public class UserRole implements Serializable {
 		super();
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public UserRole(User basicUser, Role basicRole) {
+		// TODO Auto-generated constructor stub
+
+		this.user = basicUser;
+		this.role = basicRole;
 	}
 
-	public UserRole(User user2, Role role2) {
-		this.role = role2;
-		this.user = user2;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 }

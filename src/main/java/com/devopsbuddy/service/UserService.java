@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devopsbuddy.enums.PlansEnum;
+import com.devopsbuddy.persistence.PasswordResetToken;
+import com.devopsbuddy.persistence.PasswordResetTokenRepository;
 import com.devopsbuddy.persistence.Plan;
 import com.devopsbuddy.persistence.PlanRepository;
 import com.devopsbuddy.persistence.RoleRepository;
@@ -29,6 +31,7 @@ public class UserService {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordencoder;
+	private PasswordResetTokenRepository passwordResetTokenRepository;
 
 	@Transactional
 	public User CreateUser(User user, PlansEnum planenum, Set<UserRole> userroles) {
@@ -50,6 +53,17 @@ public class UserService {
 		user.getUserroles().addAll(userroles);
 		user = userRepository.save(user);
 		return user;
+	}
+
+	@Transactional
+	public void updateUserPassword(long userId, String password) {
+		password = passwordencoder.encode(password);
+		userRepository.updateUserPassword(userId, password);
+
+		Set<PasswordResetToken> resetTokens = passwordResetTokenRepository.findAllByUserId(userId);
+		if (!resetTokens.isEmpty()) {
+			passwordResetTokenRepository.delete(resetTokens);
+		}
 	}
 
 }
