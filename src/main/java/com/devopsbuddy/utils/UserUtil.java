@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.devopsbuddy.persistence.User;
 import com.devopsbuddy.web.ForgotMyPasswordContorller;
+import com.devopsbuddy.web.basicAccountPayload;
 
 public class UserUtil {
 
@@ -36,6 +37,21 @@ public class UserUtil {
 				+ "&token=" + token;
 		return passwordResetUrl;
 
+	}
+
+	public static <T extends basicAccountPayload> User fromWebUserToDomainUser(T frontendPayload) {
+		User user = new User();
+		user.setUsername(frontendPayload.getUsername());
+		user.setPassword(frontendPayload.getPassword());
+		user.setFirstName(frontendPayload.getFirstName());
+		user.setLastName(frontendPayload.getLastName());
+		user.setEmail(frontendPayload.getEmail());
+		user.setPhone(frontendPayload.getPhoneNumber());
+		user.setCountry(frontendPayload.getCountry());
+		user.setEnabled(true);
+		user.setDescription(frontendPayload.getDescription());
+
+		return user;
 	}
 
 }
