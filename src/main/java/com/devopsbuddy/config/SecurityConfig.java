@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.devopsbuddy.service.UserSecuirtyService;
+import com.devopsbuddy.web.ForgotMyPasswordContorller;
 
 @Configuration
 @EnableWebSecurity
@@ -35,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String[] PUBLIC_MATCHERS = {
 
 			"/webjars/**", "/css/**", "/js/**", "/images/**", "/", "/about/**", "/contact/**", "/error/**/*",
-			"/h2-console/**", "/forgotmypassword/**"
+			"/h2-console/**", "/forgotmypassword/**", ForgotMyPasswordContorller.CHANGE_PASSWORD_PATH
 
 	};
 
