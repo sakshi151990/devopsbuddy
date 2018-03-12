@@ -12,8 +12,10 @@ import com.devopsbuddy.service.MockEmailService;
 
 @Configuration
 @Profile("dev")
-@PropertySource("application-dev.properties")
+@PropertySource("classpath:application-dev.properties")
 public class DevelopmentConfig {
+
+	private String stripeKey = "hieufieffi";
 
 	@Bean
 	public EmailService emailService()
@@ -28,6 +30,12 @@ public class DevelopmentConfig {
 		serbean.addUrlMappings("/h2-console");
 		return serbean;
 
+	}
+
+	@Bean
+
+	public String stripeKey() {
+		return stripeKey;
 	}
 
 }

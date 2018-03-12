@@ -13,10 +13,17 @@ import com.devopsbuddy.service.SmtpMailService;
 @PropertySource("application-prod.properties")
 public class ProdConfig {
 
+	private String stripeKey = "ghjgdfhjsfg";
+
 	@Bean
-	public EmailService emailService()
-	{
+	public EmailService emailService() {
 		return new SmtpMailService();
 	}
-	
+
+	@Bean
+
+	public String stripeKey() {
+		return stripeKey;
+	}
+
 }

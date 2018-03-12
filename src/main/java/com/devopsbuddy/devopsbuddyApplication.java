@@ -15,6 +15,7 @@ import com.devopsbuddy.enums.RoleEnum;
 import com.devopsbuddy.persistence.Role;
 import com.devopsbuddy.persistence.User;
 import com.devopsbuddy.persistence.UserRole;
+import com.devopsbuddy.service.PlanService;
 import com.devopsbuddy.service.UserService;
 import com.devopsbuddy.utils.UserUtil;
 
@@ -24,6 +25,9 @@ public class devopsbuddyApplication implements CommandLineRunner {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private PlanService planService;
 
 	@Value("${webmaster.username}")
 	private String webmasterusername;
@@ -41,6 +45,9 @@ public class devopsbuddyApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+
+		planService.createPlan(PlansEnum.BASIC.getId());
+		planService.createPlan(PlansEnum.PRO.getId());
 
 		User user = UserUtil.createBasicUser(webmasterusername, webmasteremail);
 		user.setPassword(webmasterpassword);
