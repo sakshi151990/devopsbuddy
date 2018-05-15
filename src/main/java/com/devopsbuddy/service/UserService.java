@@ -31,28 +31,34 @@ public class UserService {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordencoder;
+
+	@Autowired
 	private PasswordResetTokenRepository passwordResetTokenRepository;
 
 	@Transactional
 	public User CreateUser(User user, PlansEnum planenum, Set<UserRole> userroles) {
 
-		System.out.println("insied service");
-		String encryptedpassword = passwordencoder.encode(user.getPassword());
-		user.setPassword(encryptedpassword);
-		Plan plan = new Plan(planenum);
-		if (!planRepository.exists(planenum.getId())) {
-			plan = planRepository.save(plan);
+		User localuser = userRepository.findByEmail(user.getEmail());
+		if (localuser != null) {
+			System.out.println("User already exists");
+		} else {
+			String encryptedpassword = passwordencoder.encode(user.getPassword());
+			user.setPassword(encryptedpassword);
+			Plan plan = new Plan(planenum);
+			if (!planRepository.exists(planenum.getId())) {
+				plan = planRepository.save(plan);
+			}
+
+			user.setPlan(plan);
+
+			for (UserRole role : userroles) {
+				roleRepository.save(role.getRole());
+			}
+
+			user.getUserroles().addAll(userroles);
+			localuser = userRepository.save(user);
 		}
-
-		user.setPlan(plan);
-
-		for (UserRole role : userroles) {
-			roleRepository.save(role.getRole());
-		}
-
-		user.getUserroles().addAll(userroles);
-		user = userRepository.save(user);
-		return user;
+		return localuser;
 	}
 
 	@Transactional
